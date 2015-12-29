@@ -34,7 +34,7 @@ void AnimatedSprite::resetAnimation(){
 	this->_offsets.clear();
 }
 
-void AnimatedSprite::playAnimation(std::string animation, bool once){
+void AnimatedSprite::playAnimation(std::string animation,bool once){
 	this->_currentAnimationOnce = once;
 	if (this->_currentAnimation != animation){
 		this->_currentAnimation = animation;
@@ -43,6 +43,10 @@ void AnimatedSprite::playAnimation(std::string animation, bool once){
 }
 
 void AnimatedSprite::setVisible(bool visible){
+	this->_visible = visible;
+}
+
+void AnimatedSprite::stopAnimation(){
 	this->_frameIndex = 0;
 	this->animationDone(this->_currentAnimation);
 }
@@ -57,7 +61,7 @@ void AnimatedSprite::update(int elapsedTime){
 			this->_frameIndex++;
 		}
 		else{
-			if (this->_currentAnimationOnce = true){
+			if (this->_currentAnimationOnce == true){
 				this->setVisible(false);
 			}
 			this->_frameIndex = 0;
@@ -86,4 +90,5 @@ void AnimatedSprite::animationDone(std::string currentAnimation){
 
 void AnimatedSprite::setupAnimations(){
 	this->addAnimation(3, 0, 0, "RunLeft", 16, 16, Vector2(0, 0));
+	this->addAnimation(3, 0, 16, "RunRight", 16, 16, Vector2(0, 0));
 }

@@ -26,7 +26,7 @@ public:
 	*
 	*/
 
-	void playAnimation(std::string animation, bool once = false);
+	void playAnimation(std::string animation, bool once =false);
 
 	/*void update
 	 *Updates the animated sprite
