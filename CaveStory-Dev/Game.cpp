@@ -24,34 +24,45 @@ Game::~Game(){
 
 }
 
-void Game::gameLoop(){
-
+void Game::gameLoop() {
 	Graphics graphics;
 	Input input;
 	SDL_Event event;
 
-	this->_player = AnimatedSprite(graphics, "Content/Sprites/MyChar.png", 0, 0, 16, 16, 100, 100,100);
-	this->_player.setupAnimations();
-	this->_player.playAnimation("RunLeft",false);
+	this->_player = Player(graphics, 100, 100);
+	this->_level = Level("map 1", Vector2(100, 100), graphics);
+
+
 	int LAST_UPDATE_TIME = SDL_GetTicks();
 	//Start the game loop
-	while (true){
+	while (true) {
 		input.beginNewFrame();
-		if (SDL_PollEvent(&event)){
-			if (event.type = SDL_KEYDOWN){
-				if (event.key.repeat == 0){
+
+		if (SDL_PollEvent(&event)) {
+			if (event.type == SDL_KEYDOWN) {
+				if (event.key.repeat == 0) {
 					input.keyDownEvent(event);
 				}
 			}
-			else if (event.type = SDL_KEYUP){
+			else if (event.type == SDL_KEYUP) {
 				input.keyUpEvent(event);
 			}
-			else if (event.type == SDL_QUIT){
+			else if (event.type == SDL_QUIT) {
 				return;
 			}
 		}
-		if (input.wasKeyPressed(SDL_SCANCODE_ESCAPE) == true){
+		if (input.wasKeyPressed(SDL_SCANCODE_ESCAPE) == true) {
 			return;
+		}
+		else if (input.isKeyHeld(SDL_SCANCODE_LEFT) == true) {
+			this->_player.moveLeft();
+		}
+		else if (input.isKeyHeld(SDL_SCANCODE_RIGHT) == true) {
+			this->_player.moveRight();
+		}
+
+		if (!input.isKeyHeld(SDL_SCANCODE_LEFT) && !input.isKeyHeld(SDL_SCANCODE_RIGHT)) {
+			this->_player.stopMoving();
 		}
 
 		const int CURRENT_TIME_MS = SDL_GetTicks();
@@ -65,13 +76,14 @@ void Game::gameLoop(){
 
 void Game::draw(Graphics &graphics){
 	graphics.clear();
-
-	this->_player.draw(graphics, 100, 100);
+	this->_level.draw(graphics);
+	this->_player.draw(graphics);
 
 	graphics.flip();
 }
 
 void Game::update(float elapsedTime){
 	this->_player.update(elapsedTime);
+	this->_level.update(elapsedTime);
 }
 

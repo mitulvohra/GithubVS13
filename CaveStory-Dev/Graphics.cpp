@@ -6,13 +6,13 @@
 
 
 /*
-*Graphics class Deals with all the Graphics off the game
+*Graphics class : Deals with all the Graphics 
 *
 */
 
 Graphics::Graphics(){
 	SDL_CreateWindowAndRenderer(globals::SCREEN_WIDTH, globals::SCREEN_HEIGHT, 0, &this->_window, &this->_renderer);
-	SDL_SetWindowTitle(this->_window, "CaveStory");
+	SDL_SetWindowTitle(this->_window, "SDL:TEST");
 
 }
 
